@@ -1,0 +1,82 @@
+version : '3'
+services :
+  redis:
+    image: redis:latest
+    networks: 
+      - redisnet
+  db :
+    image : zedobaia/smartdoc_db
+    build: ./docker/postgres
+    volumes:
+      - smartdoc_postgres_data:/var/lib/postgresql/data/
+    env_file: ./docker/postgres/.env
+    restart : always
+    networks:
+      - webnet
+  pgadmin4:
+    image : dpage/pgadmin4
+    ports:
+      - 8050:80
+    networks:
+      - webnet
+    environment:
+     - PGADMIN_DEFAULT_EMAIL=postgres@loachost
+     - PGADMIN_DEFAULT_PASSWORD=password
+
+  web:
+    image : zedobaia/smartdoc_web
+    build:
+      context: .
+      dockerfile : ./docker/web/Dockerfile
+    depends_on:
+      - db
+    expose:
+      - 8000
+    env_file: ./docker/web/.env
+    volumes:
+      - ./src:/home/app
+      - static_volume:/home/app/static_cdn
+      - media_volume:/home/app/media_cdn
+    restart : always
+    command : bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn smartdoc.wsgi -b 0.0.0.0:9000 --reload"
+    networks: 
+      - webnet
+      - redisnet
+
+  websocket:
+    build:
+      context: .
+      dockerfile : ./docker/web/Dockerfile
+    env_file: ./docker/web/.env
+
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c 'daphne -b 0.0.0.0 -p 8000 smartdoc.asgi:application'
+    volumes:
+      - ./src:/home/app
+    restart: always
+    networks: 
+      - webnet
+      - redisnet
+  
+  nginx:
+    build: ./docker/nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - static_volume:/home/app/static_cdn
+      - media_volume:/home/app/media_cdn
+    networks:
+      - webnet
+    depends_on:
+      - web
+      - websocket
+  
+volumes:
+  smartdoc_postgres_data:
+  static_volume:
+  media_volume:
+
+networks: 
+  webnet:
+  redisnet: 
