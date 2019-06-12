@@ -83,8 +83,6 @@ ASGI_APPLICATION = 'smartdoc.routing.application'
 WSGI_APPLICATION = 'smartdoc.wsgi.application'
 
 redis_host = os.environ.get('REDIS_HOST', 'localhost')
-
-redis_host = 'redis'
 CHANNEL_LAYERS = {
     "default": {
         # This example app uses the Redis channel layer implementation channels_redis

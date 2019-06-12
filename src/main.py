@@ -14,4 +14,4 @@ while True:
                           "emg" : str([round(random.uniform(0.0, 5.0), 2) for i in range(15)]) 
                       })
     print(r.json())
-    time.sleep(2)
+    time.sleep(0.5)
