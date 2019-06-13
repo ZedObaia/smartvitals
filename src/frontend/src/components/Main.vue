@@ -117,7 +117,7 @@ function getNewSeries(baseval, yrange) {
 }
 
 function resetData() {
-  data = data.slice(data.length - 10, data.length);
+  data = data.slice(data.length - 100, data.length);
 }
 export default {
   data: () => ({
@@ -366,20 +366,20 @@ export default {
       }, 20);
 
       // every 60 seconds, we reset the data to prevent memory leaks
-      // window.setInterval(function() {
-      //   resetData();
-      //   if (me.$refs.realtimeChart) {
-      //     me.$refs.realtimeChart.updateSeries(
-      //       [
-      //         {
-      //           data
-      //         }
-      //       ],
-      //       false,
-      //       true
-      //     );
-      //   }
-      // }, 60000);
+      window.setInterval(function() {
+        resetData();
+        if (me.$refs.realtimeChart) {
+          me.$refs.realtimeChart.updateSeries(
+            [
+              {
+                data 
+              }
+            ],
+            false,
+            true
+          );
+        }
+      }, 60000);
     },
     leaveAllRooms: function() {
       for (let index = 0; index < this.patients.length; index++) {
