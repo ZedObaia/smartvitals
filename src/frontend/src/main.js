@@ -11,9 +11,9 @@ Vue.use(VueApexCharts)
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'http://54.154.198.148/'
+axios.defaults.baseURL = 'http://zeyadobaia.com/'
 
-Vue.use(VueNativeSock, 'ws://54.154.198.148/ws/monitor/', {
+Vue.use(VueNativeSock, 'ws://zeyadobaia.com/ws/monitor/', {
   store: store,
   format: 'json',
   reconnection: true,
