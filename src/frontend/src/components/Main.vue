@@ -8,7 +8,7 @@
     <v-data-table :headers="headers" :items="patients" :expand="expand" item-key="name">
       <template v-slot:items="props">
         <tr
-          @click="props.expanded = !props.expanded;joinRoom(patients.indexOf(props.item));resetChart();"
+          @click="resetChart();props.expanded = !props.expanded;joinRoom(patients.indexOf(props.item));"
         >
           <td class="text-xs-center">{{props.item.id}}</td>
           <td class="text-xs-center">{{ props.item.name }}</td>
