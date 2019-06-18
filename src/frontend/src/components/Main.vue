@@ -297,6 +297,7 @@ export default {
     resetChart: function() {
       data = [];
       let emg = [];
+      resetData();
       if (this.currentPatient.id)
         axios
           .get(`api/patients/${this.currentPatient.id}/`)
