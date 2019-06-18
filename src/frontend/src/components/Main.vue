@@ -297,9 +297,10 @@ export default {
     resetChart: function() {
       data = [];
       let emg = [];
-      resetData();
+      console.log(data);
       if (this.currentPatient.id)
-        axios
+        {        
+          axios
           .get(`api/patients/${this.currentPatient.id}/`)
           .then(response => {
             emg = JSON.parse(response.data.emg);
@@ -315,6 +316,21 @@ export default {
           .catch(error => {
             console.log(error.response);
           });
+        }
+        else
+        {
+         if (me.$refs.realtimeChart) {
+          me.$refs.realtimeChart.updateSeries(
+            [
+              {
+                data 
+              }
+            ],
+            false,
+            true
+          );
+        } 
+        }
     },
     addPatient: function() {
       let endpoint = "api/patients/";
