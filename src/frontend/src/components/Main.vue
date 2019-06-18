@@ -117,7 +117,8 @@ function getNewSeries(baseval, yrange) {
 }
 
 function resetData() {
-  data = data.slice(data.length - 100, data.length);
+  // data = data.slice(data.length - 100, data.length);
+  data = []
 }
 export default {
   data: () => ({
