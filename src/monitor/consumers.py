@@ -33,7 +33,6 @@ class MonitorConsumer(AsyncJsonWebsocketConsumer):
         # Messages will have a "command" key we can switch on
         if isinstance(content, str):
             content = json.loads(content)
-        print(content)
         command = content.get("command", None)
         try:
             if command == "join":

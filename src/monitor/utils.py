@@ -14,7 +14,6 @@ def get_patient_or_error(patient_id, user):
     Tries to fetch a room for the user, checking permissions along the way.
     """
     # Check if the user is logged in
-    print(user)
     if not user.is_authenticated:
         raise ClientError("USER_HAS_TO_LOGIN")
     # Find the room they requested (by ID)
