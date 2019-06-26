@@ -123,8 +123,7 @@ function getNewSeries(baseval, yrange) {
 }
 
 function resetData() {
-  if (data.length > 150)
-    data = data.slice(data.length - 100, data.length);
+  if (data.length > 500) data = data.slice(data.length - 400, data.length);
   // data = data
 }
 export default {
@@ -319,6 +318,7 @@ export default {
         axios
           .get(`api/patients/${this.currentPatient.id}/`)
           .then(response => {
+            console.log("hereee");
             emg = JSON.parse(response.data.emg);
             getDayWiseTimeSeries(new Date().getTime(), 1, {
               min: 10,
