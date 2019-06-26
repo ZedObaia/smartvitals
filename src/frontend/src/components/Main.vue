@@ -427,6 +427,9 @@ export default {
   },
   created() {
     this.getPatients();
+      if (mutation.type === "SOCKET_ONOPEN") {
+        this.getPatients();
+      }
     this.$socket.onmessage = data => this.messageReceived(data);
   },
   beforeDestroy() {
