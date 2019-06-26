@@ -318,7 +318,6 @@ export default {
         axios
           .get(`api/patients/${this.currentPatient.id}/`)
           .then(response => {
-            console.log("hereee");
             emg = JSON.parse(response.data.emg);
             getDayWiseTimeSeries(new Date().getTime(), 1, {
               min: 10,
@@ -326,11 +325,12 @@ export default {
             });
             for (let index = 0; index < emg.length; index++) {
               const element = emg[index];
+              console.log(emg[index]);
               updateChart(element);
             }
           })
           .catch(error => {
-            console.log(error.response);
+            console.log(error);
           });
       } else {
         if (this.$refs.realtimeChart) {
