@@ -430,12 +430,11 @@ export default {
       if (mutation.type === "SOCKET_ONOPEN") {
         this.getPatients();
       }
+    });
     this.getPatients();
     this.$socket.onmessage = data => this.messageReceived(data);
   },
-  beforeDestroy() {
-    // this.leaveAllRooms();
-  }
+
 };
 </script>
 
