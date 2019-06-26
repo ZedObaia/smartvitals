@@ -123,8 +123,9 @@ function getNewSeries(baseval, yrange) {
 }
 
 function resetData() {
-  // data = data.slice(data.length - 100, data.length);
-  data = [];
+  if (data.length > 150)
+    data = data.slice(data.length - 100, data.length);
+  // data = data
 }
 export default {
   data: () => ({
