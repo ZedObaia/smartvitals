@@ -8,7 +8,7 @@
     <v-data-table :headers="headers" :items="patients" :expand="expand" item-key="name">
       <template v-slot:items="props">
         <tr
-          @click="props.expanded = !props.expanded;joinRoom(patients.indexOf(props.item), props.expanded);resetChart();"
+          @click="props.expanded = !props.expanded;joinRoom(patients.indexOf(props.item));resetChart();"
         >
           <td class="text-xs-center">{{props.item.id}}</td>
           <td class="text-xs-center">{{ props.item.name }}</td>
@@ -290,6 +290,7 @@ export default {
         }
         patient.temp = new_msg.message.temp;
         patient.heartrate = new_msg.message.heartrate;
+        console.log(this.currentPatient.id);
         if (
           // parseFloat(new_msg.message.emg) &&
           patient_id == this.currentPatient.id
@@ -302,7 +303,7 @@ export default {
         }
       }
     },
-    joinRoom: function(index, expanded) {
+    joinRoom: function(index) {
       if (this.currentPatient.id === this.patients[index].id) {
         this.currentPatient = {};
       } else {
@@ -314,7 +315,7 @@ export default {
     resetChart: function() {
       data = [];
       let emg = [];
-      if (this.currentPatient.id) {
+      if (this.currentPatient.id !== null) {
         axios
           .get(`api/patients/${this.currentPatient.id}/`)
           .then(response => {
