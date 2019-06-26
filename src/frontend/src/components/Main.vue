@@ -290,7 +290,6 @@ export default {
         }
         patient.temp = new_msg.message.temp;
         patient.heartrate = new_msg.message.heartrate;
-        console.log(this.currentPatient.id);
         if (
           // parseFloat(new_msg.message.emg) &&
           patient_id == this.currentPatient.id
@@ -427,10 +426,11 @@ export default {
     this.intervals();
   },
   created() {
-    this.getPatients();
+    this.$store.subscribe((mutation, state) => {
       if (mutation.type === "SOCKET_ONOPEN") {
         this.getPatients();
       }
+    this.getPatients();
     this.$socket.onmessage = data => this.messageReceived(data);
   },
   beforeDestroy() {
