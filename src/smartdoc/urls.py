@@ -5,11 +5,13 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, re_path
 from django.views.generic import RedirectView
 
-from monitor.views import PatientDetailUpdate, PatientList, index
+from monitor.views import PatientDetailUpdate, PatientList, index, PatientHistoryList
 
 urlpatterns = [
     path('api/patients/', PatientList.as_view()),
     path('api/patients/<int:pk>/', PatientDetailUpdate.as_view()),
+    path('api/patients/<int:pk>/history/', PatientHistoryList.as_view()),
+
     path('accounts/login/', LoginView.as_view()),
     path('accounts/logout/', LogoutView.as_view()),
     path('admin/', admin.site.urls),

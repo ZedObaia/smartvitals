@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-
+import History from './views/History.vue'
+import NotFound from './components/NotFound.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -13,5 +14,15 @@ export default new Router({
       name: 'home',
       component: Home
     },
+    {
+      path: '/records/:id',
+      name: 'records',
+      component: History,
+    },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound,
+    }
   ]
 })

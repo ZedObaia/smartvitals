@@ -12,7 +12,7 @@
     </v-toolbar>
 
     <v-content>
-      <Main/>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>

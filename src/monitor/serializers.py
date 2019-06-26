@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Patient, GENDERS
+from .models import Patient, GENDERS, PatientHistory
 
 class PatientListSerializer(serializers.ModelSerializer):
     gender = serializers.CharField(source='get_gender_display')
@@ -24,7 +24,13 @@ class PatientUpdateSerializer(serializers.ModelSerializer):
         model = Patient
         fields = [
             "id",
+            "name",
             "temp",
             "heartrate",
             "emg"
         ]
+        read_only_fields = ('name',)
+class PatientHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientHistory
+        fields = '__all__'

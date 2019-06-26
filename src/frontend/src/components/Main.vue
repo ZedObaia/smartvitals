@@ -16,6 +16,12 @@
           <td class="text-xs-center">{{ props.item.gender }}</td>
           <td class="text-xs-center">{{ props.item.heartrate }}</td>
           <td class="text-xs-center">{{ props.item.temp }}</td>
+          <td class="text-xs-center">
+            <v-btn color="teal" @click="$router.push({ path: `/records/${props.item.id}`})
+">
+              <v-icon>history</v-icon>History
+            </v-btn>
+          </td>
         </tr>
       </template>
       <template v-slot:expand="props">
@@ -118,7 +124,7 @@ function getNewSeries(baseval, yrange) {
 
 function resetData() {
   // data = data.slice(data.length - 100, data.length);
-  data = []
+  data = [];
 }
 export default {
   data: () => ({
@@ -161,6 +167,12 @@ export default {
         align: "center",
         sortable: false,
         value: "temp"
+      },
+      {
+        text: "",
+        align: "center",
+        sortable: false,
+        value: "history"
       }
     ],
     message: "",
@@ -271,6 +283,11 @@ export default {
           return element.id === patient_id;
         });
         patient = patient[0];
+        try {
+          patient.temp = new_msg.message.temp;
+        } catch (error) {
+          this.getPatients();
+        }
         patient.temp = new_msg.message.temp;
         patient.heartrate = new_msg.message.heartrate;
         if (
@@ -297,10 +314,8 @@ export default {
     resetChart: function() {
       data = [];
       let emg = [];
-      console.log(data);
-      if (this.currentPatient.id)
-        {        
-          axios
+      if (this.currentPatient.id) {
+        axios
           .get(`api/patients/${this.currentPatient.id}/`)
           .then(response => {
             emg = JSON.parse(response.data.emg);
@@ -316,21 +331,19 @@ export default {
           .catch(error => {
             console.log(error.response);
           });
-        }
-        else
-        {
-         if (me.$refs.realtimeChart) {
-          me.$refs.realtimeChart.updateSeries(
+      } else {
+        if (this.$refs.realtimeChart) {
+          this.$refs.realtimeChart.updateSeries(
             [
               {
-                data 
+                data
               }
             ],
             false,
             true
           );
-        } 
         }
+      }
     },
     addPatient: function() {
       let endpoint = "api/patients/";
@@ -347,10 +360,8 @@ export default {
       axios
         .post(endpoint, data, config)
         .then(response => {
-          if (response.data.gender === 0)
-            response.data.gender = "Male"
-          else
-            response.data.gender = "Female"
+          if (response.data.gender === 0) response.data.gender = "Male";
+          else response.data.gender = "Female";
           this.patients.push(response.data);
           this.newPatient = {};
           this.addPatientDialog = false;
@@ -390,7 +401,7 @@ export default {
           me.$refs.realtimeChart.updateSeries(
             [
               {
-                data 
+                data
               }
             ],
             false,
@@ -414,12 +425,8 @@ export default {
   mounted() {
     this.intervals();
   },
-  beforeMount() {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === "SOCKET_ONOPEN") {
-        this.getPatients();
-      }
-    });
+  created() {
+    this.getPatients();
     this.$socket.onmessage = data => this.messageReceived(data);
   },
   beforeDestroy() {

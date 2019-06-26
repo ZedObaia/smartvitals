@@ -50,12 +50,12 @@ class PatientHistory(models.Model):
 def update_patient(sender, instance, **kwargs):
     group_name = 'room-{}'.format(instance.id)
     channel_layer = channels.layers.get_channel_layer()
-    # PatientHistory.objects.create(
-    #     patient=instance,
-    #     temp=instance.temp,
-    #     heartrate=instance.heartrate,
-    #     emg=instance.emg
-    # )
+    PatientHistory.objects.create(
+        patient=instance,
+        temp=instance.temp,
+        heartrate=instance.heartrate,
+        emg=instance.emg
+    )
     async_to_sync(channel_layer.group_send)(
         group_name,
         {

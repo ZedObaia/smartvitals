@@ -45,6 +45,15 @@ INSTALLED_APPS = [
     'crispy_forms',
 
 ]
+
+REST_FRAMEWORK = {}
+if not DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',)
+
+# rest framework defualt time format
+REST_FRAMEWORK['DATETIME_FORMAT'] = '%Y-%m-%d %I:%M:%S %p'
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
@@ -82,7 +91,7 @@ TEMPLATES = [
 ASGI_APPLICATION = 'smartdoc.routing.application'
 WSGI_APPLICATION = 'smartdoc.wsgi.application'
 
-redis_host = os.environ.get('REDIS_HOST', 'localhost')
+redis_host = os.environ.get('REDIS_HOST', '54.154.198.148')
 CHANNEL_LAYERS = {
     "default": {
         # This example app uses the Redis channel layer implementation channels_redis
@@ -98,12 +107,12 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE' ,'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('DB_NAME' ,os.path.join(BASE_DIR, 'db.sqlite3')),
-        'HOST': os.environ.get('DB_HOST' , 'localhost'),
-        'USER' : os.environ.get('DB_USER', ''),
-        'PASSWORD' : os.environ.get('DB_PASS' , ''),
-        'PORT' : os.environ.get('DB_PORT', '')
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DB_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'HOST': os.environ.get('DB_HOST', '54.154.198.148'),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASS', ''),
+        'PORT': os.environ.get('DB_PORT', '')
     }
 }
 
