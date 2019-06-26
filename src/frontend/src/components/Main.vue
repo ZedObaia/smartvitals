@@ -8,7 +8,7 @@
     <v-data-table :headers="headers" :items="patients" :expand="expand" item-key="name">
       <template v-slot:items="props">
         <tr
-          @click="resetChart();props.expanded = !props.expanded;joinRoom(patients.indexOf(props.item));"
+          @click="props.expanded = !props.expanded;joinRoom(patients.indexOf(props.item), props.expanded);resetChart();"
         >
           <td class="text-xs-center">{{props.item.id}}</td>
           <td class="text-xs-center">{{ props.item.name }}</td>
@@ -302,7 +302,7 @@ export default {
         }
       }
     },
-    joinRoom: function(index) {
+    joinRoom: function(index, expanded) {
       if (this.currentPatient.id === this.patients[index].id) {
         this.currentPatient = {};
       } else {
@@ -325,7 +325,6 @@ export default {
             });
             for (let index = 0; index < emg.length; index++) {
               const element = emg[index];
-              console.log(emg[index]);
               updateChart(element);
             }
           })
