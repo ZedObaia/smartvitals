@@ -9,7 +9,6 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="data" class="elevation-1">
       <template v-slot:items="props">
-        <td class="text-xs-center">{{ props.item.name }}</td>
         <td class="text-xs-center">{{ props.item.temp }}</td>
         <td class="text-xs-center">{{ props.item.heartrate }}</td>
         <td class="text-xs-center">{{ props.item.timestamp }}</td>
@@ -25,13 +24,6 @@ export default {
   data() {
     return {
       headers: [
-        {
-          text: "Name",
-          align: "center",
-          sortable: false,
-          value: "name"
-        },
-
         {
           text: "Tempreture",
           align: "center",

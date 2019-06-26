@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -50,12 +50,13 @@ class PatientHistory(models.Model):
 def update_patient(sender, instance, **kwargs):
     group_name = 'room-{}'.format(instance.id)
     channel_layer = channels.layers.get_channel_layer()
-    PatientHistory.objects.create(
-        patient=instance,
-        temp=instance.temp,
-        heartrate=instance.heartrate,
-        emg=instance.emg
-    )
+    if timezone.now().minute % 5 == 0:
+        PatientHistory.objects.create(
+            patient=instance,
+            temp=instance.temp,
+            heartrate=instance.heartrate,
+            emg=instance.emg
+        )
     async_to_sync(channel_layer.group_send)(
         group_name,
         {
